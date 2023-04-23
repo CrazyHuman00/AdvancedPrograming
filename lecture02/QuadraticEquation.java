@@ -1,4 +1,4 @@
-package lecture03;
+package lecture02;
 
 public class QuadraticEquation {
   /**

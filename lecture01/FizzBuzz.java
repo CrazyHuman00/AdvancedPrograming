@@ -1,4 +1,4 @@
-package lecture02;
+package lecture01;
 
 /**
  * FizzBuzzクラス

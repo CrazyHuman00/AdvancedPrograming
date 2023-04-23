@@ -1,6 +1,10 @@
-package lecture03;
+package lecture02;
 
 public class MonteCarloPi {
+  /**
+   * run
+   * @param args
+   */
   void run(String[] args){
     Integer number;
     Double answer;

@@ -1,4 +1,4 @@
-package lecture01;
+package lecture00;
 public class Multiplication {
   public static void main(String[] args){
     Integer i, j, k;

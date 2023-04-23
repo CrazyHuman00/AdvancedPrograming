@@ -1,4 +1,4 @@
-package lecture02;
+package lecture01;
 
 public class FindValueInArgs {
   void run(String[] args) {

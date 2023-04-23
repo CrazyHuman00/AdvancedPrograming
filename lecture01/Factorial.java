@@ -1,4 +1,4 @@
-package lecture02;
+package lecture01;
 
 public class Factorial {
   void run(String[] args){

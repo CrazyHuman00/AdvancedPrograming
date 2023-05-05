@@ -16,7 +16,7 @@ public class Factorizer {
   }
 
   /**
-   * 素因数分解を行う関数
+   * 素因数分解を行うメソッド
    * @param number
    * @return
    */
@@ -38,7 +38,7 @@ public class Factorizer {
   }
 
   /**
-   * 出力関数
+   * 出力メソッド
    * @param number
    * @param arrayList
    */

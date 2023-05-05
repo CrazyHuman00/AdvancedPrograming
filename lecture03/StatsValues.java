@@ -15,7 +15,7 @@ public class StatsValues {
   }
 
   /**
-   * 乱数のリスト生成する関数
+   * 乱数のリスト生成するメソッド
    * @param args
    * @return
    */
@@ -35,7 +35,7 @@ public class StatsValues {
   }
 
   /**
-   * 合計値、最大値、最小値を計算し出力する関数
+   * 合計値、最大値、最小値を計算し出力するメソッド
    * @param arrayList
    */
   void calcFanc(ArrayList<Integer> arrayList){
@@ -57,7 +57,7 @@ public class StatsValues {
   }
 
   /**
-   * 乱数を出力する関数
+   * 乱数を出力するメソッド
    * @param arrayList
    */
   void printer(ArrayList<Integer> arrayList){

@@ -19,7 +19,7 @@ public class Primes {
   }
 
   /**
-   * エラトステネスの篩処理を行う関数
+   * エラトステネスの篩処理を行うメソッド
    * @param number
    * @return
    */
@@ -44,7 +44,7 @@ public class Primes {
   }
 
   /**
-   * 素数を生成する関数
+   * 素数を生成するメソッド
    * @param primes
    * @return
    */

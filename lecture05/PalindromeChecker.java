@@ -1,24 +1,39 @@
 package lecture05;
 
 public class PalindromeChecker {
+  /**
+   * run
+   * @param args
+   */
   void run(String[] args){
-    Boolean check = checkString(args);
-    System.out.println(args + ": " + check);
+    for (String arg: args){
+      Boolean check = isPalindrome(arg);
+      System.out.println(arg + ": " + check);
+    }
   }
 
-  Boolean checkString(String[] args){
-    Boolean check = false;
-    if (args.length <= 1){
-      check = true;
-      return check;
+  /**
+   * 回文チェッカー
+   * @param arg
+   * @return
+   */
+  Boolean isPalindrome(String arg){
+    if (arg.length() <= 1){
+      return true;
     }
 
-    for (Integer i = 0; i < args.length; i++){
-
+    for (Integer i = 0; i < arg.length() / 2; i++){
+      if (arg.charAt(i) != arg.charAt(arg.length() - 1 - i)){
+        return false;
+      }
     }
-    return check;
+    return true;
   }
 
+  /**
+   * main
+   * @param args
+   */
   public static void main(String[] args){
     PalindromeChecker app = new PalindromeChecker();
     app.run(args);

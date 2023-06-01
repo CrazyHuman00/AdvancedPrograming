@@ -8,6 +8,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Cropping {
+  /**
+   * run
+   * @param args
+   * @throws IOException
+   */
   void run(String[] args)throws IOException{
     BufferedImage source = ImageIO.read(new File(args[0]));
     Integer width = Integer.valueOf(args[1]);
@@ -16,6 +21,13 @@ public class Cropping {
     ImageIO.write(result, "png", new File("result.png"));
   }
 
+  /**
+   * 描画メソッド
+   * @param source
+   * @param width
+   * @param height
+   * @return
+   */
   BufferedImage doFilter(BufferedImage source, Integer width, Integer height){
     Integer newW = (width - source.getWidth()) / 2;
     Integer newH = (height - source.getHeight()) / 2;
@@ -26,6 +38,11 @@ public class Cropping {
     return result;
   }
 
+  /**
+   * main
+   * @param args
+   * @throws IOException
+   */
   public static void main(String[] args)throws IOException{
     Cropping app = new Cropping();
     app.run(args);

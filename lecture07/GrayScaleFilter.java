@@ -25,7 +25,7 @@ public class GrayScaleFilter {
    * @param args
    * @throws IOException
    */
-  public static void main(String[] args) throws IOException{
+  public static void main(String[] args) throws IOException {
     GrayScaleFilter app = new GrayScaleFilter();
     app.run(args);
   }

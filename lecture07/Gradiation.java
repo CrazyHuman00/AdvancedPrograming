@@ -13,8 +13,8 @@ public class Gradiation {
    */
   void run() throws IOException {
     BufferedImage image = new BufferedImage(255, 255, BufferedImage.TYPE_INT_RGB);
-    for (Integer x = 0; x < 255; x++){
-      for (Integer y = 0; y < 255; y++){
+    for (Integer x = 0; x < 255; x++) {
+      for (Integer y = 0; y < 255; y++) {
         image.setRGB(x, y, x);
       }
     }

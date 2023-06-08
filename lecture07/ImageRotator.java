@@ -14,7 +14,7 @@ public class ImageRotator {
    * @param args
    * @throws IOException
    */
-  void run(String[] args) throws IOException{
+  void run(String[] args) throws IOException {
     BufferedImage source = ImageIO.read(new File(args[0]));
     Double degree = Double.valueOf(args[1]);
     BufferedImage result = doFilter(source, degree);
@@ -41,7 +41,7 @@ public class ImageRotator {
    * @param args
    * @throws IOException
    */
-  public static void main(String[] args)throws IOException{
+  public static void main(String[] args)throws IOException {
     ImageRotator app = new ImageRotator();
     app.run(args);
   }

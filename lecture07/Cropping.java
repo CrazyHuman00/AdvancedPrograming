@@ -13,7 +13,7 @@ public class Cropping {
    * @param args
    * @throws IOException
    */
-  void run(String[] args)throws IOException{
+  void run(String[] args)throws IOException {
     BufferedImage source = ImageIO.read(new File(args[0]));
     Integer width = Integer.valueOf(args[1]);
     Integer height = Integer.valueOf(args[2]);
@@ -28,7 +28,7 @@ public class Cropping {
    * @param height
    * @return
    */
-  BufferedImage doFilter(BufferedImage source, Integer width, Integer height){
+  BufferedImage doFilter(BufferedImage source, Integer width, Integer height) {
     Integer newW = (width - source.getWidth()) / 2;
     Integer newH = (height - source.getHeight()) / 2;
     BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -43,7 +43,7 @@ public class Cropping {
    * @param args
    * @throws IOException
    */
-  public static void main(String[] args)throws IOException{
+  public static void main(String[] args)throws IOException {
     Cropping app = new Cropping();
     app.run(args);
   }

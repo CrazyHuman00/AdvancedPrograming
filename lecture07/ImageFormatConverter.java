@@ -12,7 +12,7 @@ public class ImageFormatConverter {
    * @param args
    * @throws IOException
    */
-  void run(String[] args) throws IOException{
+  void run(String[] args) throws IOException {
     if (args.length < 2){
       System.out.printf("コマンド引数が足りません <extension1> <extension2>%n");
     }
@@ -26,7 +26,7 @@ public class ImageFormatConverter {
    * @param fileName
    * @return
    */
-  String findDestName(String fileName){
+  String findDestName(String fileName) {
     // ファイル名から最後のドット（.）の位置を取得する．
     Integer index = fileName.lastIndexOf(".");
     // 取得した位置から後ろの文字列を取得する．拡張子に相当する．
@@ -39,7 +39,7 @@ public class ImageFormatConverter {
    * @param args
    * @throws IOException
    */
-  public static void main(String[] args) throws IOException{
+  public static void main(String[] args) throws IOException {
     ImageFormatConverter app = new ImageFormatConverter();
     app.run(args);
   }

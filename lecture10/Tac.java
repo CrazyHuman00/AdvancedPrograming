@@ -6,6 +6,11 @@ import java.util.*;
 public class Tac {
   ArrayList<String> fileList;
 
+  /**
+   * run
+   * @param args
+   * @throws IOException
+   */
   void run(String[] args) throws IOException {
     for (Integer i = 0; i < args.length; i++) {
       ArrayList<String> reverseText = reverseFile(new File(args[i]));
@@ -15,6 +20,12 @@ public class Tac {
     }
   }
 
+  /**
+   * 反対方向で出力するメソッド
+   * @param file
+   * @return
+   * @throws IOException
+   */
   ArrayList<String> reverseFile(File file) throws IOException {
     ArrayList<String> fileList = new ArrayList<>();
     BufferedReader input = new BufferedReader(new FileReader(file));
@@ -27,6 +38,11 @@ public class Tac {
     return fileList;
   }
 
+  /**
+   * main
+   * @param args
+   * @throws IOException
+   */
   public static void main(String[] args) throws IOException {
     Tac app = new Tac();
     app.run(args);

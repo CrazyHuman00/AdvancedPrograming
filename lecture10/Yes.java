@@ -1,6 +1,10 @@
 package lecture10;
 
 public class Yes {
+  /**
+   * run
+   * @param args
+   */
   void run(String[] args) {
     String text;
     if (args.length == 0) {
@@ -13,6 +17,10 @@ public class Yes {
     }
   }
 
+  /**
+   * main
+   * @param args
+   */
   public static void main(String[] args) {
     Yes app = new Yes();
     app.run(args);

@@ -15,6 +15,9 @@ public class ArgsReverser {
     }
   }
 
+  /**
+   * 回文メソッド
+   */
   void reversed(String arg) {
     StringBuilder re = new StringBuilder();
     for (Integer i = arg.length() - 1; i >= 0; i--) {

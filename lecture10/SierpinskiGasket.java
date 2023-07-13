@@ -1,45 +1,60 @@
 package lecture10;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import javax.swing.JFrame;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 
-public class SierpinskiGasket extends JFrame {
-  ArrayList<Double> pointOfx;
-  ArrayList<Double> pointOfy;
-
+public class SierpinskiGasket {
   void run(String[] args) throws IOException {
+    Integer number;
+    if (args.length == 0) {
+      number = 3;
+    } else {
+      number = Integer.valueOf(args[0]);
+    }
+
     BufferedImage image = new BufferedImage(400, 400, BufferedImage.TYPE_3BYTE_BGR);
     Graphics2D g = image.createGraphics();
-    this.inputPoint();
-    this.drawGasket(g, Integer.valueOf(args[0]));
+    Point2D.Double p1 = inputPoint(10.0, 380.0);
+    Point2D.Double p2 = inputPoint(390.0, 380.0);
+    Point2D.Double p3 = inputPoint(200.0, 131.1);
+
+    this.drawGasket(g, number, p1, p2, p3);
+    ImageIO.write(image, "png", new File("SierpinskiGasket.png"));
   }
 
-  void inputPoint() throws IOException {
-    ArrayList<Double> pointOfx = new ArrayList<>();
-    ArrayList<Double> pointOfy = new ArrayList<>();
-    pointOfx.addAll(Arrays.asList(10.0, 390.0, 200.0));
-    pointOfy.addAll(Arrays.asList(380.0, 380.0, 131.3));
+  Point2D.Double inputPoint(Double x, Double y) throws IOException {
+    Point2D.Double p = new Point2D.Double(x, y);
+    return p;
   }
 
-  Double midPoint(Double Point1, Double Point2) throws IOException {
-    return (Point1 + Point2) / 2;
+  Point2D.Double midpoint(Point2D.Double p1, Point2D.Double p2) throws IOException{
+    Point2D.Double p = new Point2D.Double((p1.getX() + p2.getX()) / 2.0, (p1.getY() + p2.getY()) / 2.0);
+    return p;
   }
 
-  Integer drawGasket(Graphics2D g, Integer number) throws IOException {
+
+  Integer drawGasket(Graphics2D g, Integer number, Point2D.Double p1, Point2D.Double p2, Point2D.Double p3) throws IOException {
+    g.draw(new Line2D.Double(p1.getX(), p1.getY(), p2.getX(), p2.getY()));
+    g.draw(new Line2D.Double(p2.getX(), p2.getY(), p3.getX(), p3.getY()));
+    g.draw(new Line2D.Double(p3.getX(), p3.getY(), p1.getX(), p1.getY()));
     if (number == 0) {
       return 0;
     }
-
-    // イメージ作成
-    g.draw(new Line2D.Double(100, 0, 0, 100));
-
-    return drawGasket(g, number -1);
+    else{
+    return drawGasket(g,
+                      number-1,
+                      p1,
+                      midpoint(p1,p2),
+                      midpoint(p1,p3)) + drawGasket(g, number-1, midpoint(p1,p2),
+                      p2,
+                      midpoint(p2,p3)) + drawGasket(g, number-1, midpoint(p1,p3),midpoint(p2,p3), p3);
+    }
   }
 
   public static void main(String[] args) throws IOException {

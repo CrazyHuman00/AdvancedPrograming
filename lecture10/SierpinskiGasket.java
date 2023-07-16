@@ -10,6 +10,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class SierpinskiGasket {
+  /**
+   * run
+   * @param args
+   * @throws IOException
+   */
   void run(String[] args) throws IOException {
     Integer number;
     if (args.length == 0) {
@@ -28,17 +33,40 @@ public class SierpinskiGasket {
     ImageIO.write(image, "png", new File("SierpinskiGasket.png"));
   }
 
+  /**
+   * 点を入力するメソッド
+   * @param x
+   * @param y
+   * @return
+   * @throws IOException
+   */
   Point2D.Double inputPoint(Double x, Double y) throws IOException {
     Point2D.Double p = new Point2D.Double(x, y);
     return p;
   }
 
+  /**
+   * 中点を求めるメソッド
+   * @param p1
+   * @param p2
+   * @return
+   * @throws IOException
+   */
   Point2D.Double midpoint(Point2D.Double p1, Point2D.Double p2) throws IOException{
     Point2D.Double p = new Point2D.Double((p1.getX() + p2.getX()) / 2.0, (p1.getY() + p2.getY()) / 2.0);
     return p;
   }
 
-
+  /**
+   * 描画メソッド
+   * @param g
+   * @param number
+   * @param p1
+   * @param p2
+   * @param p3
+   * @return
+   * @throws IOException
+   */
   Integer drawGasket(Graphics2D g, Integer number, Point2D.Double p1, Point2D.Double p2, Point2D.Double p3) throws IOException {
     g.draw(new Line2D.Double(p1.getX(), p1.getY(), p2.getX(), p2.getY()));
     g.draw(new Line2D.Double(p2.getX(), p2.getY(), p3.getX(), p3.getY()));
@@ -57,6 +85,11 @@ public class SierpinskiGasket {
     }
   }
 
+  /**
+   * main
+   * @param args
+   * @throws IOException
+   */
   public static void main(String[] args) throws IOException {
     SierpinskiGasket app = new SierpinskiGasket();
     app.run(args);

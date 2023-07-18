@@ -53,15 +53,20 @@ public class GradeChecker2 {
     while ((line = in.readLine()) != null) {
       String[] lines = line.split(",");
       Integer ID = Integer.valueOf(lines[0]);
-      Integer score = 0;
-      for (Integer i = 1; i <= 5; i++) {
+      Integer score = this.putAssign(lines);
+      AssignmentsScoreMap.put(ID, score);
+    }
+    in.close();
+  }
+
+  Integer putAssign(String[] lines) {
+    Integer score = 0;
+      for (Integer i = 1; i < lines.length; i++) {
         if (lines[i] != "") {
           score += Integer.valueOf(lines[i]);
         }
       }
-      AssignmentsScoreMap.put(ID, score);
-    }
-    in.close();
+    return score;
   }
 
   void putScoreOfMiniExam(File file) throws IOException {
@@ -70,15 +75,20 @@ public class GradeChecker2 {
     while ((line = in.readLine()) != null) {
       String[] lines = line.split(",");
       Integer ID = Integer.valueOf(lines[0]);
-      Integer count = 0;
-      for (Integer i = 1; i <= 14; i++) {
-        if (lines[i] != null) {
-          count++;
-        }
-      }
+      Integer count = this.putScoreMini(lines);
       MiniExamScoreMap.put(ID, count/14.0);
     }
     in.close();
+  }
+
+  Integer putScoreMini(String[] lines) {
+    Integer count = 0;
+    for (Integer i = 1; i < lines.length; i++) {
+      if (lines[i] != "") {
+        count++;
+      }
+    }
+    return count;
   }
 
   /**
@@ -98,12 +108,12 @@ public class GradeChecker2 {
   }
 
   void calculateTotal(Integer maxID) throws IOException {
-    for (Integer i = 0; i < maxID; i++) {
+    for (Integer i = 1; i <= maxID; i++) {
       Double scoreOfExam = ExamScoreMap.get(i);
       Integer scoreOfAssignments = AssignmentsScoreMap.get(i);
       Double scoreOfMiniExam = MiniExamScoreMap.get(i);
-      Double total = (70 * scoreOfExam / 100) + (25 * scoreOfAssignments / 60) + (5 * scoreOfMiniExam);
-      TotalMap.put(i+1, total);
+      Double total = (70.0 * scoreOfExam / 100.0) + Double.valueOf(25 * scoreOfAssignments / 60) + (5.0 * scoreOfMiniExam);
+      TotalMap.put(i, total);
     }
   }
 

@@ -6,12 +6,7 @@ public class Yes {
    * @param args
    */
   void run(String[] args) {
-    String text;
-    if (args.length == 0) {
-      text = "y";
-    } else {
-      text = args[0];
-    }
+    String text = (args.length == 0) ? "y" : args[0];
     while(true) {
       System.out.println(text);
     }

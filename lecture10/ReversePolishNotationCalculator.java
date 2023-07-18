@@ -6,6 +6,10 @@ import java.util.Stack;
 public class ReversePolishNotationCalculator {
   ArrayList<String> wordsList = new ArrayList<>();
 
+  /**
+   * run
+   * @param args
+   */
   void run(String[] args) {
     if (args.length == 0) {
       System.out.println("ファイル指定がされていません。");
@@ -32,6 +36,10 @@ public class ReversePolishNotationCalculator {
     return arrayList;
   }
 
+  /**
+   * 計算メソッド
+   * @return
+   */
   Double calculateWord() {
     Stack<Double> stack = new Stack<>();
     for (String item: wordsList) {
@@ -64,14 +72,26 @@ public class ReversePolishNotationCalculator {
     return stack.pop();
   }
 
+  /**
+   * 数値かどうかを判定するメソッド
+   * @param item
+   * @return
+   */
   boolean isNumeric(String item) {
     return item.matches("-?\\d+(\\.\\d+)?");
   }
 
+  /**
+   * 出力メソッド
+   */
   void printAnswer(String item, Double answer) {
     System.out.println(String.format("%.4f (%s)", answer, item));
   }
 
+  /**
+   * main
+   * @param args
+   */
   public static void main(String[] args) {
     ReversePolishNotationCalculator app = new ReversePolishNotationCalculator();
     app.run(args);

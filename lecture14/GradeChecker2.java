@@ -10,7 +10,7 @@ import java.util.Map;
 public class GradeChecker2 {
   Map<Integer, Double> ExamScoreMap = new HashMap<>();
   Map<Integer, Integer> AssignmentsScoreMap = new HashMap<>();
-  Map<Integer, Double> MiniExamScoreMap = new HashMap<>();
+  Map<Integer, Integer> MiniExamScoreMap = new HashMap<>();
   Map<Integer, Double> TotalMap = new HashMap<>();
 
   /**
@@ -22,9 +22,9 @@ public class GradeChecker2 {
     Integer maxID = this.putScoreOfExam(new File(args[0]));
     this.putScoreOfAssignments(new File(args[1]));
     this.putScoreOfMiniExam(new File(args[2]));
-    this.fillIDandScore(maxID);
+    this.fillIDandMiniExamScore(maxID);
     this.calculateTotal(maxID);
-    this.judgeSocre();
+    this.judgeSocre(maxID);
   }
 
   /**
@@ -76,7 +76,7 @@ public class GradeChecker2 {
       String[] lines = line.split(",");
       Integer ID = Integer.valueOf(lines[0]);
       Integer count = this.putScoreMini(lines);
-      MiniExamScoreMap.put(ID, count/14.0);
+      MiniExamScoreMap.put(ID, count);
     }
     in.close();
   }
@@ -95,14 +95,14 @@ public class GradeChecker2 {
    * 欠席者を0とするメソッド
    * @param maxID
    */
-  void fillIDandScore(Integer maxID) throws IOException {
+  void fillIDandMiniExamScore(Integer maxID) throws IOException {
     for (Integer i = 1; i <= maxID; i++) {
-      if (ExamScoreMap.get(i) == null) {
-        ExamScoreMap.put(i, 0.000);
+      if (MiniExamScoreMap.get(i) == null) {
+        MiniExamScoreMap.put(i, 0);
       }
 
-      if (MiniExamScoreMap.get(i) == null) {
-        MiniExamScoreMap.put(i, 0.000);
+      if (ExamScoreMap.get(i) == null) {
+        ExamScoreMap.put(i, 0.0);
       }
     }
   }
@@ -110,9 +110,9 @@ public class GradeChecker2 {
   void calculateTotal(Integer maxID) throws IOException {
     for (Integer i = 1; i <= maxID; i++) {
       Double scoreOfExam = ExamScoreMap.get(i);
-      Integer scoreOfAssignments = AssignmentsScoreMap.get(i);
-      Double scoreOfMiniExam = MiniExamScoreMap.get(i);
-      Double total = (70.0 * scoreOfExam / 100.0) + Double.valueOf(25 * scoreOfAssignments / 60) + (5.0 * scoreOfMiniExam);
+      Double scoreOfAssignments = Double.valueOf(AssignmentsScoreMap.get(i));
+      Double scoreOfMiniExam = MiniExamScoreMap.get(i) / 14.0;
+      Double total = 70.0 * scoreOfExam / 100.0 + 25.0 * scoreOfAssignments / 60.0 + 5.0 * scoreOfMiniExam;
       TotalMap.put(i, total);
     }
   }
@@ -121,20 +121,22 @@ public class GradeChecker2 {
    * 成績判定するメソッド
    * @throws IOException
    */
-  void judgeSocre() throws IOException {
-    for (Map.Entry<Integer, Double> entry: TotalMap.entrySet()) {
-      if (entry.getValue() == 0) {
-        System.out.printf("%d, %5.3f, K\n", entry.getKey(), entry.getValue());
-      } else if (entry.getValue() < 60.0) {
-        System.out.printf("%d, %5.3f, 不可\n", entry.getKey(), entry.getValue());
-      } else if (entry.getValue() < 70.0) {
-        System.out.printf("%d, %5.3f, 可\n", entry.getKey(), entry.getValue());
-      } else if (entry.getValue() < 80.0) {
-        System.out.printf("%d, %5.3f, 良\n", entry.getKey(), entry.getValue());
-      } else if (entry.getValue() < 90.0) {
-        System.out.printf("%d, %5.3f, 優\n", entry.getKey(), entry.getValue());
+  void judgeSocre(Integer maxID) throws IOException {
+    for (Integer i = 1; i <= maxID; i++) {
+      Double finalScore= Math.ceil(TotalMap.get(i));
+
+      if (ExamScoreMap.get(i) == 0.0) {
+        System.out.printf("%d,%2.0f,,%d,%d,K\n", i, finalScore, AssignmentsScoreMap.get(i), MiniExamScoreMap.get(i));
+      } else if (finalScore < 60.0) {
+        System.out.printf("%d,%2.0f,%5.3f,%d,%d,不可\n", i, finalScore, ExamScoreMap.get(i), AssignmentsScoreMap.get(i), MiniExamScoreMap.get(i));
+      } else if (finalScore < 70.0) {
+        System.out.printf("%d,%2.0f,%5.3f,%d,%d,可\n", i, finalScore, ExamScoreMap.get(i), AssignmentsScoreMap.get(i), MiniExamScoreMap.get(i));
+      } else if (finalScore < 80.0) {
+        System.out.printf("%d,%2.0f,%5.3f,%d,%d,良\n", i, finalScore, ExamScoreMap.get(i), AssignmentsScoreMap.get(i), MiniExamScoreMap.get(i));
+      } else if (finalScore < 90.0) {
+        System.out.printf("%d,%2.0f,%5.3f,%d,%d,優\n", i, finalScore, ExamScoreMap.get(i), AssignmentsScoreMap.get(i), MiniExamScoreMap.get(i));
       } else {
-        System.out.printf("%d, %5.3f, 秀\n", entry.getKey(), entry.getValue());
+        System.out.printf("%d,%2.0f,%5.3f,%d,%d,秀\n", i, finalScore, TotalMap.get(i), AssignmentsScoreMap.get(i), MiniExamScoreMap.get(i));
       }
     }
   }

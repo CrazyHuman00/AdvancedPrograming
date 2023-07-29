@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.DoubleSummaryStatistics;
+import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -13,7 +13,7 @@ public class GradeChecker4 {
     Map<Integer, Double> ExamScoreMap = new HashMap<>();          // 試験成績
     Map<Integer, Integer> AssignmentsScoreMap = new HashMap<>();  // 課題成績
     Map<Integer, Integer> MiniExamScoreMap = new HashMap<>();     // 小テスト成績
-    ArrayList<Double> TotalList = new ArrayList<>();              // 最終成績
+    ArrayList<Integer> TotalList = new ArrayList<>();             // 最終成績
     ArrayList<Integer> peopleList = new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0));  // 人数
 
     /**
@@ -132,7 +132,8 @@ public class GradeChecker4 {
             Double scoreOfAssignments = Double.valueOf(AssignmentsScoreMap.get(i));
             Double scoreOfMiniExam = MiniExamScoreMap.get(i) / 14.0;
             Double total = 70.0 * scoreOfExam / 100.0 + 25.0 * scoreOfAssignments / 60.0 + 5.0 * scoreOfMiniExam;
-            TotalList.add(total);
+
+            TotalList.add(this.ExceedGrade(i, (int)Math.ceil(total)).intValue());
         }
     }
 
@@ -142,30 +143,29 @@ public class GradeChecker4 {
      */
     void printScores() throws IOException {
         Integer i = 1;
-        for (Double d: TotalList) {
-            Double ceiledValue = this.ExceedGrade(i, d);
+        for (Integer finalScore: TotalList) {
             if (ExamScoreMap.get(i) == 0.0) {
-                System.out.printf("%d,%2.0f,,%d,%d,K\n", i, ceiledValue, AssignmentsScoreMap.get(i), MiniExamScoreMap.get(i));
-            } else if (ceiledValue < 60) {
+                System.out.printf("%d,%d,,%d,%d,K\n", i, finalScore, AssignmentsScoreMap.get(i), MiniExamScoreMap.get(i));
+            } else if (finalScore < 60) {
                 if (MiniExamScoreMap.get(i) <= 7) {
-                    System.out.printf("%d,%2.0f,%5.3f,%d,%d,※\n", i, ceiledValue, ExamScoreMap.get(i), AssignmentsScoreMap.get(i), MiniExamScoreMap.get(i));
+                    System.out.printf("%d,%d,%5.3f,%d,%d,※\n", i, finalScore, ExamScoreMap.get(i), AssignmentsScoreMap.get(i), MiniExamScoreMap.get(i));
                 } else {
-                    System.out.printf("%d,%2.0f,%5.3f,%d,%d,不可\n", i, ceiledValue, ExamScoreMap.get(i), AssignmentsScoreMap.get(i), MiniExamScoreMap.get(i));
+                    System.out.printf("%d,%d,%5.3f,%d,%d,不可\n", i, finalScore, ExamScoreMap.get(i), AssignmentsScoreMap.get(i), MiniExamScoreMap.get(i));
                 }
-            } else if (ceiledValue < 70) {
-                System.out.printf("%d,%2.0f,%5.3f,%d,%d,可\n", i, ceiledValue, ExamScoreMap.get(i), AssignmentsScoreMap.get(i), MiniExamScoreMap.get(i));
-            } else if (ceiledValue < 80) {
-                System.out.printf("%d,%2.0f,%5.3f,%d,%d,良\n", i, ceiledValue, ExamScoreMap.get(i), AssignmentsScoreMap.get(i), MiniExamScoreMap.get(i));
-            } else if (ceiledValue < 90) {
-                System.out.printf("%d,%2.0f,%5.3f,%d,%d,優\n", i, ceiledValue, ExamScoreMap.get(i), AssignmentsScoreMap.get(i), MiniExamScoreMap.get(i));
+            } else if (finalScore < 70) {
+                System.out.printf("%d,%d,%5.3f,%d,%d,可\n", i, finalScore, ExamScoreMap.get(i), AssignmentsScoreMap.get(i), MiniExamScoreMap.get(i));
+            } else if (finalScore < 80) {
+                System.out.printf("%d,%d,%5.3f,%d,%d,良\n", i, finalScore, ExamScoreMap.get(i), AssignmentsScoreMap.get(i), MiniExamScoreMap.get(i));
+            } else if (finalScore < 90) {
+                System.out.printf("%d,%d,%5.3f,%d,%d,優\n", i, finalScore, ExamScoreMap.get(i), AssignmentsScoreMap.get(i), MiniExamScoreMap.get(i));
             } else {
-                System.out.printf("%d,%2.0f,%5.3f,%d,%d,秀\n", i, ceiledValue, ExamScoreMap.get(i), AssignmentsScoreMap.get(i), MiniExamScoreMap.get(i));
+                System.out.printf("%d,%d,%5.3f,%d,%d,秀\n", i, finalScore, ExamScoreMap.get(i), AssignmentsScoreMap.get(i), MiniExamScoreMap.get(i));
             }
             i++;
         }
     }
 
-    Double ExceedGrade(Integer i, Double d) throws IOException {
+    Double ExceedGrade(Integer i, Integer d) throws IOException {
         Double ceiledValue;
         if (ExamScoreMap.get(i) >= 80.0 && ExamScoreMap.get(i) >= Math.ceil(d)) {
             ceiledValue = Math.ceil(ExamScoreMap.get(i));
@@ -181,7 +181,7 @@ public class GradeChecker4 {
      */
     void judgeGrade() throws IOException {
         Integer i = 1;
-        for (Double d: TotalList) {
+        for (Integer d: TotalList) {
             Double ceiledValue = this.ExceedGrade(i, d);
             if (ExamScoreMap.get(i) == 0.0) {
                 peopleList.set(1, peopleList.get(1) + 1);
@@ -209,12 +209,13 @@ public class GradeChecker4 {
      * @throws IOException
      */
     void printGrade() throws IOException {
-        DoubleSummaryStatistics stats1 = TotalList.stream().mapToDouble(Double::doubleValue).summaryStatistics();
-        List<Double> list = TotalList.stream().filter(i -> 60 <= i).collect(Collectors.toList());
-        DoubleSummaryStatistics stats2 = list.stream().mapToDouble(Double::doubleValue).summaryStatistics();
+        IntSummaryStatistics stats1 = TotalList.stream().mapToInt(Integer::intValue).summaryStatistics();
+        List<Integer> list = TotalList.stream().filter(i -> 60 <= i).collect(Collectors.toList());
+        IntSummaryStatistics stats2 = list.stream().mapToInt(Integer::intValue).summaryStatistics();
+
         System.out.printf(String.format("Avg: %5.3f (%5.3f)\n", stats1.getAverage(), stats2.getAverage()));
-        System.out.printf(String.format("Max: %5.3f (%5.3f)\n", stats1.getMax(), stats2.getMax()));
-        System.out.printf(String.format("Min: %5.3f (%5.3f)\n", stats1.getMin(), stats2.getMin()));
+        System.out.printf(String.format("Max: %5.3f (%5.3f)\n", (double)stats1.getMax(), (double)stats2.getMax()));
+        System.out.printf(String.format("Min: %5.3f (%5.3f)\n", (double)stats1.getMin(), (double)stats2.getMin()));
         System.out.printf("秀:    %d\n", peopleList.get(6));
         System.out.printf("優:    %d\n", peopleList.get(5));
         System.out.printf("良:    %d\n", peopleList.get(4));
